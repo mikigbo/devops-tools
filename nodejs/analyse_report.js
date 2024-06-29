@@ -26,7 +26,7 @@ function processVulnerabilityReport(reportFile, whitelist) {
             severityCounts[severity]++;
         }
 
-        console.log(`Processing vulnerability: ${vulnId} (Severity: ${severity})`);
+        //console.log(`Processing vulnerability: ${vulnId} (Severity: ${severity})`);
 
         if (whitelist[vulnId] === severity) {
             whitelistedCount++;
