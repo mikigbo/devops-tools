@@ -13,7 +13,7 @@ function processVulnerabilityReport(reportFile, whitelist) {
     });
 
 
-    console.log(JSON.stringify(vulnerabilities, null, 2));
+   // console.log(JSON.stringify(vulnerabilities, null, 2));
 
     totalVulnerabilities = vulnerabilities.length;
     let whitelistedCount = 0;
