@@ -8,7 +8,7 @@ function processVulnerabilityReport(reportFile, whitelist) {
     const severityCounts = { LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0 };
 
     reportData.Results.forEach(result => {
-        console.log(JSON.stringify(result.Vulnerabilities, null, 2));
+       // console.log(JSON.stringify(result.Vulnerabilities, null, 2));
         vulnerabilities = vulnerabilities.concat(result.Vulnerabilities || []);
     });
 
