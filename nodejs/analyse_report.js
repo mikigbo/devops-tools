@@ -3,19 +3,14 @@ const fs = require('fs');
 function processVulnerabilityReport(reportFile, whitelist) {
     const reportData = JSON.parse(fs.readFileSync(reportFile, 'utf8'));
 
-    let totalVulnerabilities = 0;
     let vulnerabilities = [];
     const severityCounts = { LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0 };
 
     reportData.Results.forEach(result => {
-       // console.log(JSON.stringify(result.Vulnerabilities, null, 2));
         vulnerabilities = vulnerabilities.concat(result.Vulnerabilities || []);
     });
 
-
-   // console.log(JSON.stringify(vulnerabilities, null, 2));
-
-    totalVulnerabilities = vulnerabilities.length;
+    const totalVulnerabilities = vulnerabilities.length;
     let whitelistedCount = 0;
 
     vulnerabilities.forEach(vuln => {
@@ -25,8 +20,6 @@ function processVulnerabilityReport(reportFile, whitelist) {
         if (severity in severityCounts) {
             severityCounts[severity]++;
         }
-
-        //console.log(`Processing vulnerability: ${vulnId} (Severity: ${severity})`);
 
         if (whitelist[vulnId] === severity) {
             whitelistedCount++;
@@ -38,11 +31,12 @@ function processVulnerabilityReport(reportFile, whitelist) {
         console.log(`${level}: ${count}`);
     }
 
-    if (whitelistedCount === totalVulnerabilities) {
-        console.log('Vulnerability check passed. All vulnerabilities are whitelisted.');
+    // Check if there are no critical or high vulnerabilities
+    if (severityCounts['CRITICAL'] === 0 && severityCounts['HIGH'] === 0) {
+        console.log('No critical or high vulnerabilities found. Vulnerability check passed.');
         return true;
     } else {
-        console.log('Vulnerability check failed. Non-whitelisted vulnerabilities found.');
+        console.log('Critical or high vulnerabilities found. Vulnerability check failed.');
         return false;
     }
 }
